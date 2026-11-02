@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Яндекс Диск не отдаёт файлы, если браузер сообщает, что пришёл с чужого сайта (403) — не сообщаем. -->
+<meta name="referrer" content="no-referrer">
 <title>Yo-ho для телевизора</title>
 <link rel="icon" href="../favicon.png">
 <style>
@@ -20,7 +22,7 @@ p{color:rgba(245,245,247,.65);max-width:30ch;margin:22px auto 0}
   <a class="go" id="go" href="#" autofocus>Скачать Yo-ho</a>
   <p>После загрузки нажмите «Установить». Если телевизор спросит — разрешите установку из этой программы.</p>
 </main>
-<script src="../disk.js?v=4"></script>
+<script src="../disk.js?v=5"></script>
 <script>
 // Свежий файл для ТВ — прямо с Яндекс Диска Yo-ho (работает без VPN).
 var go=document.getElementById('go'),t=document.getElementById('t');
