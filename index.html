@@ -10,6 +10,10 @@
 <meta property="og:image" content="og.png">
 <meta name="theme-color" content="#0A0E1C">
 <link rel="icon" href="favicon.png">
+<script>
+// Телевизор (Android без «Mobile» — так открывает Downloader): сразу страница для ТВ с автозагрузкой.
+if(/Android/.test(navigator.userAgent)&&!/Mobile/.test(navigator.userAgent)&&location.hash!=='#site')location.replace('tv/');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
@@ -285,11 +289,11 @@ footer a:hover{color:var(--ivory)}
   dl('dl-win','setup');dl('dl-apk','apk');
   document.getElementById('tv-addr').textContent=tvPage.replace(/^https?:\/\//,'').replace(/\/$/,'');
   // Короткий код для Downloader (go.aftvnews.com) — ведёт на страницу для ТВ. Пусто — показываем только адрес.
-  var DL_CODE='';
+  var DL_CODE='9715863';
   if(DL_CODE){document.getElementById('dl-code').textContent=DL_CODE;}
   else{document.getElementById('dl-code-box').hidden=true;}
 
-  YoHo.manifest().then(function(j){
+  YoHo.current().then(function(j){
     var d=j.date?new Date(j.date).toLocaleDateString('ru-RU',{day:'numeric',month:'long'}):'';
     ver.textContent=j.version?('Версия '+j.version+(d?' от '+d:'')+'. Windows 10 и 11, Android TV'):'';
   }).catch(function(){ver.textContent='Windows 10 и 11, Android TV';});
