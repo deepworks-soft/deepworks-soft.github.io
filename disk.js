@@ -52,9 +52,10 @@ var YoHo = (function () {
       if (!j.href) throw new Error('нет ссылки');
       if (onState) onState('');
       location.href = j.href;
-    }).catch(function () {
-      if (onState) onState('');
-      location.href = PUB;
+    }).catch(function (e) {
+      // Не молча в папку: пишем, что случилось, и даём папку ссылкой — так видно, в чём дело.
+      if (onState) onState('Не получилось взять ссылку (' + (e && e.message || e) + '). Файлы — в папке выпусков: ' + PUB);
+      else location.href = PUB;
     });
   }
 
