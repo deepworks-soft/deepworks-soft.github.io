@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Справка Yo-ho</title>
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0B0B0E;--deck:#16161B;--foam:#F5F5F7;--mist:rgba(245,245,247,.66);--line:rgba(255,255,255,.09);--sky:#7C9CFF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--foam);font:400 18px/1.7 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--sky)}
+.top{position:sticky;top:0;z-index:5;background:rgba(11,11,14,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top div{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.top img{height:30px}
+.layout{max-width:1120px;margin:0 auto;padding:40px 24px 100px;display:grid;grid-template-columns:260px 1fr;gap:56px}
+nav.toc{position:sticky;top:90px;align-self:start;display:grid;gap:2px}
+nav.toc a{color:var(--mist);text-decoration:none;padding:8px 12px;border-radius:12px;font-size:15px}
+nav.toc a:hover,nav.toc a.on{background:var(--deck);color:var(--foam)}
+article{max-width:70ch}
+h1{font:700 clamp(30px,4vw,44px)/1.15 Unbounded,sans-serif;letter-spacing:-.02em;margin:64px 0 18px;scroll-margin-top:90px}
+h1:first-child{margin-top:0}
+h2{font:600 24px/1.25 Inter,sans-serif;margin:36px 0 10px;scroll-margin-top:90px}
+h3{font:600 20px/1.3 Inter,sans-serif;margin:26px 0 8px}
+p,li{color:#DCDCE2}
+ul,ol{padding-left:1.3em}
+li{margin:6px 0}
+code{background:var(--deck);padding:2px 7px;border-radius:7px;font-size:.92em}
+b,strong{color:var(--foam)}
+@media (max-width:860px){.layout{grid-template-columns:1fr}nav.toc{position:static;grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="top"><div><a href="./"><img src="logo.png" alt="Yo-ho"></a><a href="./#tv">Установка</a></div></header>
+<div class="layout"><nav class="toc" id="toc"></nav><article id="doc">Загружаю справку…</article></div>
+<script>
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function inline(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`(.+?)`/g,'<code>$1</code>')}
+fetch('guide.md').then(function(r){return r.text()}).then(function(md){
+  var out=[],list=null,para=[],n=0,toc=[];
+  function flushP(){if(para.length){out.push('<p>'+inline(para.join(' '))+'</p>');para=[]}}
+  function flushL(){if(list){out.push('</'+list+'>');list=null}}
+  md.split('\n').forEach(function(line){
+    var m;
+    if(!line.trim()){flushP();flushL();return}
+    if((m=line.match(/^(#{1,3})\s+(.*)$/))){flushP();flushL();var lv=m[1].length,id='s'+(++n);
+      if(lv===1)toc.push('<a href="#'+id+'">'+esc(m[2])+'</a>');out.push('<h'+lv+' id="'+id+'">'+inline(m[2])+'</h'+lv+'>');return}
+    if((m=line.match(/^\s*[-•]\s+(.*)$/))||(m=line.match(/^\s*\d+\.\s+(.*)$/))){flushP();var t=/^\s*\d+\./.test(line)?'ol':'ul';
+      if(list!==t){flushL();out.push('<'+t+'>');list=t}out.push('<li>'+inline(m[1])+'</li>');return}
+    flushL();para.push(line.trim());
+  });
+  flushP();flushL();
+  document.getElementById('doc').innerHTML=out.join('');
+  document.getElementById('toc').innerHTML=toc.join('');
+}).catch(function(){document.getElementById('doc').textContent='Не удалось загрузить справку. Обновите страницу.'});
+</script>
+</body>
+</html>

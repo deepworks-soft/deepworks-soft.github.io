@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yo-ho — твой компас в мире кино</title>
+<meta name="description" content="Yo-ho — фильмы и сериалы в один клик на Android TV и Windows. По приглашениям.">
+<meta property="og:title" content="Yo-ho — твой компас в мире кино">
+<meta property="og:description" content="Фильмы и сериалы в один клик — на телевизоре и компьютере.">
+<meta property="og:image" content="og.png">
+<meta name="theme-color" content="#0A0E1C">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Морская ночь и латунь компаса: тёмно-синий вместо чёрного, один тёплый акцент — латунь.
+   Смелость — только в одном месте: приборе-компасе на первом экране. Всё остальное тихое. */
+:root{
+  --abyss:#0A0E1C; --hull:#11162B; --deck:#171D38;
+  --ivory:#E9E6F0; --haze:rgba(233,230,240,.64); --faint:rgba(233,230,240,.42);
+  --brass:#C9A86A; --brass-soft:rgba(201,168,106,.22); --rule:rgba(201,168,106,.18);
+  --needle:#D9554A;
+  --display:"Unbounded",system-ui,sans-serif; --text:"Golos Text",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--abyss)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--abyss);color:var(--ivory);font:400 18px/1.65 var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:4px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+h2{font:500 clamp(28px,3.4vw,40px)/1.15 var(--display);letter-spacing:-.025em}
+h3{font:500 19px/1.3 var(--display);letter-spacing:-.01em}
+p{max-width:60ch}
+
+/* ── Первый экран: слева слова, справа прибор ── */
+.hero{min-height:min(100svh,940px);display:grid;align-items:center;padding:72px 0 64px;position:relative;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(70% 60% at 78% 45%,rgba(64,72,150,.30),transparent 70%),
+             radial-gradient(50% 40% at 10% 0%,rgba(91,75,214,.18),transparent 70%)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:center}
+.logo{width:min(440px,78vw);height:auto;display:block}
+.slogan{font:400 clamp(20px,2.2vw,26px)/1.3 var(--display);letter-spacing:-.01em;color:var(--brass);margin-top:28px}
+.lead{color:var(--haze);font-size:clamp(17px,1.5vw,19px);max-width:42ch;margin-top:18px}
+.get{display:flex;flex-wrap:nowrap;gap:12px;margin-top:40px}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 24px;white-space:nowrap;border-radius:999px;font:500 17px/1 var(--text);text-decoration:none;border:1px solid var(--rule);color:var(--ivory);background:transparent;transition:background .2s,border-color .2s,color .2s}
+.btn:hover{border-color:var(--brass);color:#fff}
+.btn.main{background:var(--ivory);color:var(--abyss);border-color:var(--ivory)}
+.btn.main:hover{background:#fff;color:var(--abyss)}
+.btn svg{width:20px;height:20px;flex:none}
+.meta{display:grid;gap:6px;margin-top:28px;font-size:15px;color:var(--faint)}
+.meta b{font-weight:500;color:var(--haze)}
+
+.instrument{position:relative;width:100%;max-width:520px;aspect-ratio:1;justify-self:end}
+.instrument svg{width:100%;height:100%;overflow:visible}
+.needle{transform-origin:300px 300px;animation:settle 3.2s cubic-bezier(.2,.85,.25,1.1) .3s both}
+@keyframes settle{0%{transform:rotate(-140deg)}50%{transform:rotate(24deg)}72%{transform:rotate(-8deg)}88%{transform:rotate(3deg)}100%{transform:rotate(0)}}
+
+/* ── Разделы: название слева, содержание справа ── */
+section{padding:120px 0;border-top:1px solid var(--rule)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:64px}
+.split>header p{color:var(--haze);font-size:16px;margin-top:16px;max-width:30ch}
+
+/* Четыре шага — это последовательность, поэтому номера */
+.steps{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:48px 56px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:52px 1fr;gap:4px 18px}
+.steps li::before{content:counter(s);grid-row:span 2;width:44px;height:44px;border-radius:50%;border:1px solid var(--brass);color:var(--brass);display:grid;place-items:center;font:500 17px var(--display)}
+.steps p{color:var(--haze);font-size:16px}
+
+/* Что умеет: спокойный список через тонкие линейки */
+.features{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+.feature{padding:28px 0;border-bottom:1px solid var(--rule)}
+.feature:nth-last-child(-n+2){border-bottom:0}
+.feature p{color:var(--haze);font-size:16px;margin-top:8px}
+
+/* На телевизор: главное — код для Downloader */
+.tv{display:grid;grid-template-columns:minmax(0,1.3fr) auto;gap:56px;align-items:start}
+.code{font:500 clamp(56px,8vw,96px)/1 var(--display);letter-spacing:.04em;color:var(--ivory);margin:6px 0 4px}
+.code-note{color:var(--haze);font-size:16px}
+.tv ol{margin:36px 0 0 1.1em;display:grid;gap:12px;color:var(--haze);font-size:17px}
+.tv ol b{color:var(--ivory);font-weight:500}
+.addr{font-weight:500;color:var(--ivory);border-bottom:1px solid var(--brass-soft);word-break:break-all}
+.side{display:grid;justify-items:center;gap:14px;padding-top:8px}
+.qr{display:block;width:196px;height:196px;border-radius:18px;image-rendering:pixelated}
+.tv-addr{font:500 clamp(22px,2.6vw,30px)/1.3 var(--display);margin-top:6px}
+.side p{color:var(--faint);font-size:14px;text-align:center;max-width:22ch}
+.side a{color:var(--haze)}
+
+/* Вопросы */
+.faq{display:grid}
+details{border-bottom:1px solid var(--rule)}
+details:first-child{border-top:1px solid var(--rule)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;font-weight:500;font-size:18px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:12px;height:12px;border-right:1.5px solid var(--brass);border-bottom:1.5px solid var(--brass);transform:rotate(45deg) translate(-3px,-3px);transition:transform .25s}
+details[open] summary::after{transform:rotate(225deg) translate(-3px,-3px)}
+details p{color:var(--haze);font-size:16px;padding:0 0 26px}
+
+footer{padding:48px 0 72px;border-top:1px solid var(--rule);color:var(--faint);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between}
+footer img{height:24px;opacity:.85}
+footer nav{display:flex;flex-wrap:wrap;gap:28px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--ivory)}
+
+@media (max-width:960px){
+  .hero{min-height:auto;padding:48px 0 72px}
+  .hero .wrap{grid-template-columns:1fr;gap:24px}
+  .instrument{order:-1;max-width:300px;justify-self:center}
+  .split{grid-template-columns:1fr;gap:36px}
+  .tv{grid-template-columns:1fr}
+  .side{justify-items:start}
+  .side p{text-align:left}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  section{padding:80px 0}
+  .steps,.features{grid-template-columns:1fr}
+  .feature:nth-last-child(2){border-bottom:1px solid var(--rule)}
+  .get{flex-wrap:wrap}.btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <img class="logo" src="logo.png" alt="Yo-ho" width="900" height="300">
+      <p class="slogan">Твой компас в мире кино</p>
+      <p class="lead">Фильмы и сериалы в одно нажатие — на телевизоре и компьютере. Выбрали, нажали «Смотреть», и через несколько секунд кино уже идёт.</p>
+      <div class="get">
+        <a class="btn main" id="dl-win" href="#" download>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7.1H3V5.5Zm0 13 7.5 1.1v-7H3v5.9Zm8.4 1.2L21 21v-8.4h-9.6v7.1Zm0-15.4v7.2H21V3l-9.6 1.3Z"/></svg>
+          Скачать для Windows
+        </a>
+        <a class="btn" id="dl-tv" href="#tv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Установить на телевизор
+        </a>
+      </div>
+      <div class="meta">
+        <span id="ver">Последняя версия загружается…</span>
+        <span><b>Вход по приглашению.</b> Код даёт тот, кто вас позвал.</span>
+      </div>
+    </div>
+
+    <div class="instrument" aria-hidden="true">
+      <svg viewBox="0 0 600 600">
+        <defs>
+          <radialGradient id="face" cx="50%" cy="42%" r="60%">
+            <stop offset="0" stop-color="#1B2244"/><stop offset="1" stop-color="#0D1124"/>
+          </radialGradient>
+          <linearGradient id="bezel" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#E3C88E"/><stop offset=".5" stop-color="#9C7E45"/><stop offset="1" stop-color="#D8BA7C"/>
+          </linearGradient>
+        </defs>
+        <circle cx="300" cy="300" r="292" fill="none" stroke="url(#bezel)" stroke-width="3"/>
+        <circle cx="300" cy="300" r="282" fill="url(#face)" stroke="rgba(201,168,106,.35)" stroke-width="1"/>
+        <g id="ticks" stroke="#C9A86A"></g>
+        <circle cx="300" cy="300" r="196" fill="none" stroke="rgba(201,168,106,.22)" stroke-width="1"/>
+        <g fill="none" stroke="rgba(201,168,106,.28)" stroke-width="1">
+          <path d="M300 112 L322 278 L300 300 L278 278 Z M300 488 L322 322 L300 300 L278 322 Z"/>
+          <path d="M112 300 L278 278 L300 300 L278 322 Z M488 300 L322 278 L300 300 L322 322 Z"/>
+        </g>
+        <g font-family="Unbounded,sans-serif" font-size="24" font-weight="500" fill="#C9A86A" text-anchor="middle">
+          <text x="300" y="80">С</text><text x="300" y="540">Ю</text><text x="528" y="309">В</text><text x="72" y="309">З</text>
+        </g>
+        <g class="needle">
+          <path d="M300 118 L313 300 L287 300 Z" fill="#D9554A"/>
+          <path d="M300 482 L313 300 L287 300 Z" fill="#E9E6F0" opacity=".85"/>
+          <circle cx="300" cy="300" r="13" fill="url(#bezel)"/>
+          <circle cx="300" cy="300" r="4" fill="#0D1124"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="start">
+    <div class="wrap split">
+      <header>
+        <h2>Как начать</h2>
+        <p>Минут пять — и можно смотреть. Подробная справка есть в самой программе.</p>
+      </header>
+      <ol class="steps">
+        <li><h3>Установите</h3><p>На компьютер — кнопкой выше. На телевизор — через бесплатную программу Downloader.</p></li>
+        <li><h3>Войдите через Яндекс</h3><p>Наведите телефон на QR-код на экране и нажмите «Разрешить». Пароль вводить не нужно.</p></li>
+        <li><h3>Введите код приглашения</h3><p>Восемь букв и цифр от того, кто вас позвал. Один код — до трёх ваших устройств.</p></li>
+        <li><h3>Смотрите</h3><p>Описания, постеры и рейтинги приходят сами — никаких ключей и регистраций.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="what">
+    <div class="wrap split">
+      <header>
+        <h2>Сделано для дивана</h2>
+        <p>Всё управляется стрелками и кнопкой OK. Крупные постеры, понятные подписи, ничего лишнего.</p>
+      </header>
+      <div class="features">
+        <div class="feature"><h3>В одно нажатие</h3><p>«Смотреть» сам выбирает лучшую версию: с вашей озвучкой и подходящим качеством.</p></div>
+        <div class="feature"><h3>С того же места</h3><p>Начали на телевизоре — продолжите на компьютере. Списки и история одинаковые везде.</p></div>
+        <div class="feature"><h3>Озвучка на выбор</h3><p>Дубляж, многоголосый, авторский или оригинал с субтитрами. Выбор запоминается для каждого сериала.</p></div>
+        <div class="feature"><h3>«Что за песня?»</h3><p>Нажмите во время фильма — и узнаете, что сейчас играет.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tv">
+    <div class="wrap split">
+      <header>
+        <h2>На телевизор</h2>
+        <p>Android TV, Google TV и приставки. Понадобится бесплатная программа Downloader из Google Play.</p>
+      </header>
+      <div class="tv">
+        <div>
+          <div id="dl-code-box">
+            <p class="code-note">Код для Downloader</p>
+            <p class="code" id="dl-code"></p>
+            <p class="code-note">или адрес:</p>
+          </div>
+          <p class="tv-addr"><span class="addr" id="tv-addr">deepworks-soft.github.io/tv</span></p>
+          <ol>
+            <li>Откройте на телевизоре <b>Google Play</b> и установите <b>Downloader</b>.</li>
+            <li>Откройте Downloader, введите в поле адреса код или адрес выше и нажмите <b>Go</b>.</li>
+            <li>Нажмите <b>«Скачать»</b> на открывшейся странице, затем <b>«Установить»</b>. Если телевизор спросит — разрешите Downloader устанавливать приложения.</li>
+            <li>Откройте Yo-ho, войдите через Яндекс и введите код приглашения.</li>
+          </ol>
+        </div>
+        <div class="side">
+          <img class="qr" src="qr-tv.png" alt="QR-код со ссылкой на страницу для телевизора" width="196" height="196">
+          <p>Или откройте ссылку телефоном. Файл для флешки — <a id="dl-apk" href="#">здесь</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap split">
+      <header><h2>Вопросы</h2></header>
+      <div class="faq">
+        <details><summary>Где взять код приглашения?</summary><p>Его даёт владелец Yo-ho — тот, кто рассказал вам о программе. Один код рассчитан на одного человека и до трёх его устройств: на втором телевизоре или компьютере достаточно войти тем же Яндексом.</p></details>
+        <details><summary>Это бесплатно?</summary><p>Да. Описания фильмов, постеры и рейтинги приходят сами через сервер Yo-ho — никаких ключей и регистраций на сторонних сайтах.</p></details>
+        <details><summary>Какие нужны устройства?</summary><p>Телевизор или приставка на Android TV / Google TV, либо компьютер с Windows 10 или 11. Для фильмов в HD хватает интернета от 10 Мбит/с, для 4K — от 40.</p></details>
+        <details><summary>Windows пишет «Система Windows защитила ваш компьютер»</summary><p>Так Windows предупреждает о любой программе не из магазина. Нажмите «Подробнее», затем «Выполнить в любом случае».</p></details>
+        <details><summary>Телевизор пишет «Приложение не установлено»</summary><p>Чаще всего не хватает места. Освободите около 1 ГБ — удалите ненужные приложения или очистите кеш — и установите снова. Ваши списки не пропадут.</p></details>
+        <details><summary>Как обновлять программу?</summary><p>Никак: Yo-ho сама сообщит о новой версии и обновится одной кнопкой.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="logo.png" alt="Yo-ho">
+    <nav>
+      <a href="guide.html">Справка</a>
+      <a href="#tv">Установка на телевизор</a>
+      <a id="all-rel" href="#">Все версии</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="disk.js"></script>
+<script>
+(function(){
+  // Шкала компаса: 120 делений, длинные — через 30°.
+  var g=document.getElementById('ticks'),ns='http://www.w3.org/2000/svg';
+  for(var i=0;i<120;i++){var a=i*3*Math.PI/180,big=i%10===0,mid=i%5===0,r=270,l=big?22:mid?14:7;
+    var t=document.createElementNS(ns,'line');
+    t.setAttribute('x1',300+Math.sin(a)*r);t.setAttribute('y1',300-Math.cos(a)*r);
+    t.setAttribute('x2',300+Math.sin(a)*(r-l));t.setAttribute('y2',300-Math.cos(a)*(r-l));
+    t.setAttribute('stroke-width',big?2:1);t.setAttribute('opacity',big?1:mid?.7:.4);g.appendChild(t);}
+
+  // Файлы — прямо с Яндекс Диска Yo-ho (disk.js): сайт может стоять где угодно и работает без VPN.
+  var tvPage='https://deepworks-soft.github.io/tv/';
+  document.getElementById('all-rel').href=YoHo.folder;
+  var ver=document.getElementById('ver');
+  function dl(id,kind){var a=document.getElementById(id);a.href=YoHo.folder;
+    a.addEventListener('click',function(e){e.preventDefault();var old=ver.textContent;
+      YoHo.download(kind,function(t){ver.textContent=t||old;});});}
+  dl('dl-win','setup');dl('dl-apk','apk');
+  document.getElementById('tv-addr').textContent=tvPage.replace(/^https?:\/\//,'').replace(/\/$/,'');
+  // Короткий код для Downloader (go.aftvnews.com) — ведёт на страницу для ТВ. Пусто — показываем только адрес.
+  var DL_CODE='';
+  if(DL_CODE){document.getElementById('dl-code').textContent=DL_CODE;}
+  else{document.getElementById('dl-code-box').hidden=true;}
+
+  YoHo.manifest().then(function(j){
+    var d=j.date?new Date(j.date).toLocaleDateString('ru-RU',{day:'numeric',month:'long'}):'';
+    ver.textContent=j.version?('Версия '+j.version+(d?' от '+d:'')+'. Windows 10 и 11, Android TV'):'';
+  }).catch(function(){ver.textContent='Windows 10 и 11, Android TV';});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yo-ho для телевизора</title>
+<link rel="icon" href="../favicon.png">
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(70% 60% at 20% 15%,rgba(64,72,150,.35),transparent 70%),#0A0E1C;color:#E9E6F0;font:400 26px/1.5 system-ui,sans-serif;text-align:center;padding:24px}
+img{width:min(520px,80vw)}
+a.go{display:inline-block;margin-top:34px;padding:22px 48px;border-radius:999px;background:#E9E6F0;color:#0A0E1C;font-weight:700;text-decoration:none;font-size:30px}
+a.go:focus{outline:4px solid #C9A86A;outline-offset:6px}
+p{color:rgba(245,245,247,.65);max-width:30ch;margin:22px auto 0}
+</style>
+</head>
+<body>
+<main>
+  <img src="../logo.png" alt="Yo-ho">
+  <p id="t">Ищу свежую версию для телевизора…</p>
+  <a class="go" id="go" href="#" autofocus>Скачать Yo-ho</a>
+  <p>После загрузки нажмите «Установить». Если телевизор спросит — разрешите установку из этой программы.</p>
+</main>
+<script src="../disk.js"></script>
+<script>
+// Свежий файл для ТВ — прямо с Яндекс Диска Yo-ho (работает без VPN).
+var go=document.getElementById('go'),t=document.getElementById('t');
+go.href=YoHo.folder;
+function start(){YoHo.download('apk',function(x){if(x)t.textContent=x;});}
+go.addEventListener('click',function(e){e.preventDefault();start();});
+YoHo.manifest().then(function(j){
+  if(!j.version)return;
+  t.textContent='Версия '+j.version+' — загрузка начнётся сама';
+  setTimeout(start,1500);
+}).catch(function(){t.textContent='Нажмите кнопку, чтобы начать загрузку';});
+go.focus();
+</script>
+</body>
+</html>
