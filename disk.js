@@ -20,6 +20,15 @@ var YoHo = (function () {
   // {version, date, files: [имена]} — текущая версия для всех.
   function current() {
     if (info) return info;
+    // ?v=0.5.7 в адресе — именно эта версия (тестовая сборка владельцу); без него — текущая для всех.
+    var want = (/[?&]v=(\d+(?:\.\d+)+)/.exec(location.search) || [])[1];
+    if (want) {
+      info = items('/' + want).then(function (fs) {
+        if (!fs.length) throw new Error('нет версии ' + want);
+        return { version: want, date: '', files: fs.map(function (f) { return f.name; }) };
+      }).catch(function (e) { info = null; throw e; });
+      return info;
+    }
     info = items('/current').then(function (list) {
       var v = null, date = '';
       for (var i = 0; i < list.length; i++) if (/^\d+(\.\d+)+$/.test(list[i].name)) { v = list[i].name; date = list[i].created; }
