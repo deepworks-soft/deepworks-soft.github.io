@@ -25,11 +25,11 @@ p{color:rgba(245,245,247,.65);max-width:32ch;margin:22px auto 0}
   <a class="go" id="go" href="#" autofocus>Скачать Yo-ho</a>
   <p>После загрузки нажмите «Установить». Если телевизор спросит — разрешите установку из этой программы.</p>
 </main>
-<script src="../disk.js?v=7"></script>
+<script src="../disk.js?v=8"></script>
 <script>
 // Свежий файл для ТВ — прямо с Яндекс Диска Yo-ho (работает без VPN).
 var go=document.getElementById('go'),t=document.getElementById('t');
-go.href=YoHo.folder;
+go.href="#";
 function start(){YoHo.download('apk',function(x){if(x)t.textContent=x;});}
 go.addEventListener('click',function(e){e.preventDefault();start();});
 YoHo.current().then(function(j){

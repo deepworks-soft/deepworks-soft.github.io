@@ -278,19 +278,17 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
     <nav>
       <a href="guide.html">Справка</a>
       <a href="#tv">Установка на телевизор</a>
-      <a id="all-rel" href="#">Все версии</a>
     </nav>
   </div>
 </footer>
 
-<script src="disk.js?v=7"></script>
+<script src="disk.js?v=8"></script>
 <script>
 (function(){
   // Файлы — прямо с Яндекс Диска Yo-ho (disk.js): сайт может стоять где угодно и работает без VPN.
   var tvPage='https://deepworks-soft.github.io/tv/';
-  document.getElementById('all-rel').href=YoHo.folder;
   var ver=document.getElementById('ver');
-  function dl(id,kind){var a=document.getElementById(id);a.href=YoHo.folder;
+  function dl(id,kind){var a=document.getElementById(id);a.href="#";a.removeAttribute("download");
     a.addEventListener('click',function(e){e.preventDefault();var old=ver.textContent;
       YoHo.download(kind,function(t){ver.textContent=t||old;});});}
   dl('dl-win','setup');dl('dl-apk','apk');
