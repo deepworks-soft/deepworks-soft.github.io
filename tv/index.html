@@ -8,11 +8,14 @@
 <title>Yo-ho для телевизора</title>
 <link rel="icon" href="../favicon.png">
 <style>
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(70% 60% at 20% 15%,rgba(64,72,150,.35),transparent 70%),#0A0E1C;color:#E9E6F0;font:400 26px/1.5 system-ui,sans-serif;text-align:center;padding:24px}
-img{width:min(520px,80vw)}
-a.go{display:inline-block;margin-top:34px;padding:22px 48px;border-radius:999px;background:#E9E6F0;color:#0A0E1C;font-weight:700;text-decoration:none;font-size:30px}
-a.go:focus{outline:4px solid #C9A86A;outline-offset:6px}
-p{color:rgba(245,245,247,.65);max-width:30ch;margin:22px auto 0}
+/* Страница для телевизора — в стиле приложения: тёмный фон с мягким светом, белая кнопка-таблетка. */
+body{margin:0;min-height:100vh;display:grid;place-items:center;color:#F5F5F7;font:400 26px/1.5 Inter,system-ui,sans-serif;text-align:center;padding:24px;
+  background:radial-gradient(70% 60% at 20% 0%,rgba(114,122,158,.40),transparent 70%),linear-gradient(180deg,#2B2C36,#1E1F22 60%);
+  overflow-wrap:normal;word-break:keep-all;hyphens:none}
+img{width:min(460px,80vw)}
+a.go{display:inline-block;margin-top:34px;padding:22px 52px;border-radius:999px;background:#ECEBF0;color:#1C1C1E;font-weight:700;text-decoration:none;font-size:30px;white-space:nowrap;transition:transform .15s}
+a.go:focus{outline:4px solid #fff;outline-offset:6px;transform:scale(1.06)}
+p{color:rgba(245,245,247,.65);max-width:32ch;margin:22px auto 0}
 </style>
 </head>
 <body>
@@ -22,7 +25,7 @@ p{color:rgba(245,245,247,.65);max-width:30ch;margin:22px auto 0}
   <a class="go" id="go" href="#" autofocus>Скачать Yo-ho</a>
   <p>После загрузки нажмите «Установить». Если телевизор спросит — разрешите установку из этой программы.</p>
 </main>
-<script src="../disk.js?v=6"></script>
+<script src="../disk.js?v=7"></script>
 <script>
 // Свежий файл для ТВ — прямо с Яндекс Диска Yo-ho (работает без VPN).
 var go=document.getElementById('go'),t=document.getElementById('t');

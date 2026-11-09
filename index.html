@@ -10,7 +10,7 @@
 <meta property="og:title" content="Yo-ho — твой компас в мире кино">
 <meta property="og:description" content="Фильмы и сериалы в один клик — на телевизоре и компьютере.">
 <meta property="og:image" content="og.png">
-<meta name="theme-color" content="#0A0E1C">
+<meta name="theme-color" content="#1E1F22">
 <link rel="icon" href="favicon.png">
 <script>
 // Телевизор (Android без «Mobile» — так открывает Downloader): сразу страница для ТВ с автозагрузкой.
@@ -18,123 +18,160 @@ if(/Android/.test(navigator.userAgent)&&!/Mobile/.test(navigator.userAgent)&&loc
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Морская ночь и латунь компаса: тёмно-синий вместо чёрного, один тёплый акцент — латунь.
-   Смелость — только в одном месте: приборе-компасе на первом экране. Всё остальное тихое. */
+/* В стиле приложения Yo-ho (как Apple TV): тёмный серо-синий фон с мягким светом, крупная типографика,
+   стеклянные карточки и кнопки-таблетки. Слова и ссылки никогда не переносятся по частям. */
 :root{
-  --abyss:#0A0E1C; --hull:#11162B; --deck:#171D38;
-  --ivory:#E9E6F0; --haze:rgba(233,230,240,.64); --faint:rgba(233,230,240,.42);
-  --brass:#C9A86A; --brass-soft:rgba(201,168,106,.22); --rule:rgba(201,168,106,.18);
-  --needle:#D9554A;
-  --display:"Unbounded",system-ui,sans-serif; --text:"Golos Text",system-ui,sans-serif;
+  --bg:#1E1F22; --bg2:#26272D; --glass:rgba(255,255,255,.07); --glass2:rgba(255,255,255,.11);
+  --line:rgba(255,255,255,.10); --text:#F5F5F7; --muted:rgba(245,245,247,.62); --faint:rgba(245,245,247,.44);
+  --indigo:#494B5F; --glow:rgba(114,122,158,.30); --accent:#7C9CFF;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;background:var(--abyss)}
+html{scroll-behavior:smooth;background:var(--bg)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-body{background:var(--abyss);color:var(--ivory);font:400 18px/1.65 var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font:400 18px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  overflow-wrap:normal;word-break:keep-all;hyphens:none;-webkit-hyphens:none}
+/* Мягкий свет, как фон «Настроек» в программе */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(70% 55% at 18% -5%,rgba(114,122,158,.38),transparent 70%),
+             radial-gradient(60% 50% at 95% 20%,rgba(91,75,214,.16),transparent 70%),
+             linear-gradient(180deg,#2B2C36 0%,#1E1F22 55%,#1A1B1E 100%)}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--brass);outline-offset:4px;border-radius:6px}
-.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
-h2{font:500 clamp(28px,3.4vw,40px)/1.15 var(--display);letter-spacing:-.025em}
-h3{font:500 19px/1.3 var(--display);letter-spacing:-.01em}
+:focus-visible{outline:3px solid #fff;outline-offset:4px;border-radius:999px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+h1{font:800 clamp(40px,6.2vw,80px)/1.02 var(--font);letter-spacing:-.035em}
+h2{font:800 clamp(30px,3.6vw,46px)/1.08 var(--font);letter-spacing:-.03em}
+h3{font:700 20px/1.3 var(--font);letter-spacing:-.01em}
 p{max-width:60ch}
+.nowrap{white-space:nowrap}
 
-/* ── Первый экран: слева слова, справа прибор ── */
-.hero{min-height:min(100svh,940px);display:grid;align-items:center;padding:72px 0 64px;position:relative;isolation:isolate}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;
-  background:radial-gradient(70% 60% at 78% 45%,rgba(64,72,150,.30),transparent 70%),
-             radial-gradient(50% 40% at 10% 0%,rgba(91,75,214,.18),transparent 70%)}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:center}
-.logo{width:min(440px,78vw);height:auto;display:block}
-.slogan{font:400 clamp(20px,2.2vw,26px)/1.3 var(--display);letter-spacing:-.01em;color:var(--brass);margin-top:28px}
-.lead{color:var(--haze);font-size:clamp(17px,1.5vw,19px);max-width:42ch;margin-top:18px}
-.get{display:flex;flex-wrap:nowrap;gap:12px;margin-top:40px}
-.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 24px;white-space:nowrap;border-radius:999px;font:500 17px/1 var(--text);text-decoration:none;border:1px solid var(--rule);color:var(--ivory);background:transparent;transition:background .2s,border-color .2s,color .2s}
-.btn:hover{border-color:var(--brass);color:#fff}
-.btn.main{background:var(--ivory);color:var(--abyss);border-color:var(--ivory)}
-.btn.main:hover{background:#fff;color:var(--abyss)}
+/* ── Верх ── */
+.top{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.6) blur(20px);-webkit-backdrop-filter:saturate(1.6) blur(20px);background:rgba(30,31,34,.72);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.top img{height:28px;width:auto;display:block}
+.top nav{display:flex;gap:6px}
+.top nav a{text-decoration:none;color:var(--muted);font-size:15px;font-weight:500;padding:8px 14px;border-radius:999px;white-space:nowrap}
+.top nav a:hover{background:var(--glass2);color:var(--text)}
+
+/* ── Первый экран ── */
+.hero{padding:96px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center}
+.kicker{display:inline-block;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.lead{color:var(--muted);font-size:clamp(18px,1.6vw,21px);max-width:40ch;margin-top:22px}
+.get{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;white-space:nowrap;border-radius:999px;
+  font:600 17px/1 var(--font);text-decoration:none;color:var(--text);background:var(--glass2);border:1px solid var(--line);
+  transition:transform .18s,background .18s,color .18s}
+.btn:hover{background:rgba(255,255,255,.18);transform:scale(1.03)}
+.btn.main{background:#ECEBF0;color:#1C1C1E;border-color:transparent}
+.btn.main:hover{background:#fff}
 .btn svg{width:20px;height:20px;flex:none}
-.meta{display:grid;gap:6px;margin-top:28px;font-size:15px;color:var(--faint)}
-.meta b{font-weight:500;color:var(--haze)}
+.meta{display:grid;gap:6px;margin-top:24px;font-size:15px;color:var(--faint)}
+.meta b{font-weight:600;color:var(--muted)}
 
-.instrument{position:relative;width:100%;max-width:520px;aspect-ratio:1;justify-self:end}
-.instrument svg{width:100%;height:100%;overflow:visible}
-.needle{transform-origin:300px 300px;animation:settle 3.2s cubic-bezier(.2,.85,.25,1.1) .3s both}
-@keyframes settle{0%{transform:rotate(-140deg)}50%{transform:rotate(24deg)}72%{transform:rotate(-8deg)}88%{transform:rotate(3deg)}100%{transform:rotate(0)}}
+/* Экран программы — набросок: полка постеров, одна в фокусе (как на ТВ) */
+.screen{position:relative;aspect-ratio:16/10;border-radius:28px;overflow:hidden;border:1px solid var(--line);
+  background:radial-gradient(80% 70% at 30% 0%,rgba(124,156,255,.35),transparent 70%),linear-gradient(160deg,#3A3B4A,#202127 70%);
+  box-shadow:0 40px 80px rgba(0,0,0,.45)}
+.screen .bar{position:absolute;left:6%;top:9%;display:flex;gap:8px}
+.screen .bar i{display:block;height:12px;border-radius:999px;background:rgba(255,255,255,.18)}
+.screen .bar i:first-child{width:64px;background:rgba(255,255,255,.85)}
+.screen .bar i:nth-child(2){width:48px}.screen .bar i:nth-child(3){width:56px}
+.screen .title{position:absolute;left:6%;top:18%;width:48%}
+.screen .title b{display:block;height:22px;width:80%;border-radius:8px;background:rgba(255,255,255,.88)}
+.screen .title s{display:block;height:10px;width:60%;margin-top:12px;border-radius:6px;background:rgba(255,255,255,.35)}
+.screen .title u{display:inline-block;margin-top:12px;height:22px;width:96px;border-radius:999px;background:#ECEBF0}
+.shelf{position:absolute;left:6%;right:-6%;bottom:7%;display:flex;gap:3.2%}
+.shelf span{flex:none;width:15%;aspect-ratio:2/3;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.shelf span:nth-child(1){background:linear-gradient(160deg,#FF8A7A,#D6455B)}
+.shelf span:nth-child(2){background:linear-gradient(160deg,#7C9CFF,#5B4BD6);transform:scale(1.12);outline:3px solid #fff;outline-offset:3px;transform-origin:bottom}
+.shelf span:nth-child(3){background:linear-gradient(160deg,#6BD6A8,#2E9C7A)}
+.shelf span:nth-child(4){background:linear-gradient(160deg,#FFC66B,#E08A2E)}
+.shelf span:nth-child(5){background:linear-gradient(160deg,#C48BFF,#8A4BD6)}
 
-/* ── Разделы: название слева, содержание справа ── */
-section{padding:120px 0;border-top:1px solid var(--rule)}
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:64px}
-.split>header p{color:var(--haze);font-size:16px;margin-top:16px;max-width:30ch}
+/* ── Разделы ── */
+section{padding:72px 0}
+.head{max-width:720px;margin-bottom:34px}
+.head p{color:var(--muted);margin-top:14px;font-size:18px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:28px;padding:26px 24px}
+.card p{color:var(--muted);font-size:16px;margin-top:8px}
+.num{width:44px;height:44px;border-radius:50%;background:#ECEBF0;color:#1C1C1E;display:grid;place-items:center;font-weight:800;font-size:18px;margin-bottom:18px}
+.cards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ico{width:44px;height:44px;border-radius:14px;background:var(--glass2);display:grid;place-items:center;margin-bottom:16px}
+.ico svg{width:22px;height:22px}
 
-/* Четыре шага — это последовательность, поэтому номера */
-.steps{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:48px 56px;counter-reset:s}
-.steps li{counter-increment:s;display:grid;grid-template-columns:52px 1fr;gap:4px 18px}
-.steps li::before{content:counter(s);grid-row:span 2;width:44px;height:44px;border-radius:50%;border:1px solid var(--brass);color:var(--brass);display:grid;place-items:center;font:500 17px var(--display)}
-.steps p{color:var(--haze);font-size:16px}
+/* На телевизор */
+.tv{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:18px}
+.card .code-note{color:var(--muted);font-size:16px;margin:0}
+.card .code,.code{color:var(--text);font:800 clamp(52px,8vw,96px)/1 var(--font);letter-spacing:.04em;margin:8px 0 6px;white-space:nowrap}
+.tv-addr{margin-top:8px}
+.addr{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);font-weight:600;font-size:18px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.tv ol{margin:28px 0 0 1.2em;display:grid;gap:10px;color:var(--muted);font-size:17px}
+.tv ol b{color:var(--text);font-weight:600}
+.side{display:grid;justify-items:center;align-content:start;gap:16px;text-align:center}
+.qr{display:block;width:196px;height:196px;border-radius:20px;image-rendering:pixelated;background:#fff;padding:8px}
+.side p{color:var(--muted);font-size:15px;max-width:24ch}
 
-/* Что умеет: спокойный список через тонкие линейки */
-.features{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
-.feature{padding:28px 0;border-bottom:1px solid var(--rule)}
-.feature:nth-last-child(-n+2){border-bottom:0}
-.feature p{color:var(--haze);font-size:16px;margin-top:8px}
-
-/* На телевизор: главное — код для Downloader */
-.tv{display:grid;grid-template-columns:minmax(0,1.3fr) auto;gap:56px;align-items:start}
-.code{font:500 clamp(56px,8vw,96px)/1 var(--display);letter-spacing:.04em;color:var(--ivory);margin:6px 0 4px}
-.code-note{color:var(--haze);font-size:16px}
-.tv ol{margin:36px 0 0 1.1em;display:grid;gap:12px;color:var(--haze);font-size:17px}
-.tv ol b{color:var(--ivory);font-weight:500}
-.addr{font-weight:500;color:var(--ivory);border-bottom:1px solid var(--brass-soft);word-break:break-all}
-.side{display:grid;justify-items:center;gap:14px;padding-top:8px}
-.qr{display:block;width:196px;height:196px;border-radius:18px;image-rendering:pixelated}
-.tv-addr{font:500 clamp(22px,2.6vw,30px)/1.3 var(--display);margin-top:6px}
-.side p{color:var(--faint);font-size:14px;text-align:center;max-width:22ch}
-.side a{color:var(--haze)}
-
-/* Вопросы */
-.faq{display:grid}
-details{border-bottom:1px solid var(--rule)}
-details:first-child{border-top:1px solid var(--rule)}
-summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;font-weight:500;font-size:18px}
+/* Вопросы — таблетки, как строки «Настроек» */
+.faq{display:grid;gap:10px;max-width:860px}
+details{background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:0 24px}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:64px;font-weight:600;font-size:18px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"";flex:none;width:12px;height:12px;border-right:1.5px solid var(--brass);border-bottom:1.5px solid var(--brass);transform:rotate(45deg) translate(-3px,-3px);transition:transform .25s}
+summary::after{content:"";flex:none;width:10px;height:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-3px,-3px);transition:transform .25s}
+details[open]{background:var(--glass2)}
 details[open] summary::after{transform:rotate(225deg) translate(-3px,-3px)}
-details p{color:var(--haze);font-size:16px;padding:0 0 26px}
+details p{color:var(--muted);font-size:16px;padding:0 0 22px}
 
-footer{padding:48px 0 72px;border-top:1px solid var(--rule);color:var(--faint);font-size:15px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between}
-footer img{height:24px;opacity:.85}
-footer nav{display:flex;flex-wrap:wrap;gap:28px}
-footer a{text-decoration:none}
-footer a:hover{color:var(--ivory)}
+footer{padding:40px 0 64px;color:var(--faint);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:18px 32px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:28px}
+footer img{height:24px;width:auto;opacity:.9}
+footer nav{display:flex;flex-wrap:wrap;gap:8px}
+footer nav a{text-decoration:none;padding:8px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+footer nav a:hover{color:var(--text);background:var(--glass2)}
 
-@media (max-width:960px){
-  .hero{min-height:auto;padding:48px 0 72px}
-  .hero .wrap{grid-template-columns:1fr;gap:24px}
-  .instrument{order:-1;max-width:300px;justify-self:center}
-  .split{grid-template-columns:1fr;gap:36px}
+@media (max-width:1040px){
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:900px){
+  .hero{padding:56px 0 40px}
+  .hero .wrap{grid-template-columns:1fr;gap:40px}
   .tv{grid-template-columns:1fr}
-  .side{justify-items:start}
-  .side p{text-align:left}
 }
 @media (max-width:640px){
-  .wrap{padding:0 20px}
-  section{padding:80px 0}
-  .steps,.features{grid-template-columns:1fr}
-  .feature:nth-last-child(2){border-bottom:1px solid var(--rule)}
-  .get{flex-wrap:wrap}.btn{width:100%;justify-content:center}
+  .wrap{padding:0 16px}
+  body{font-size:17px}
+  .top nav a:not(.keep){display:none}
+  section{padding:52px 0}
+  .cards,.cards.two{grid-template-columns:1fr}
+  .get .btn{width:100%}
+  .card{padding:22px 20px;border-radius:24px}
+  .screen .title u{display:none}
+  details{padding:0 18px}
+  summary{font-size:17px}
 }
 </style>
 </head>
 <body>
 
-<header class="hero">
+<header class="top">
+  <div class="wrap">
+    <a href="./" aria-label="Yo-ho"><img src="logo.png" alt="Yo-ho" width="90" height="30"></a>
+    <nav>
+      <a href="#start">Как начать</a>
+      <a href="#tv">На телевизор</a>
+      <a class="keep" href="guide.html">Справка</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
   <div class="wrap">
     <div>
-      <img class="logo" src="logo.png" alt="Yo-ho" width="900" height="300">
-      <p class="slogan">Твой компас в мире кино</p>
+      <span class="kicker">Yo-ho · по приглашениям</span>
+      <h1>Твой компас в&nbsp;мире кино</h1>
       <p class="lead">Фильмы и сериалы в одно нажатие — на телевизоре и компьютере. Выбрали, нажали «Смотреть», и через несколько секунд кино уже идёт.</p>
       <div class="get">
         <a class="btn main" id="dl-win" href="#" download>
@@ -142,8 +179,8 @@ footer a:hover{color:var(--ivory)}
           Скачать для Windows
         </a>
         <a class="btn" id="dl-tv" href="#tv">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          Установить на телевизор
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          На телевизор
         </a>
       </div>
       <div class="meta">
@@ -151,78 +188,53 @@ footer a:hover{color:var(--ivory)}
         <span><b>Вход по приглашению.</b> Код даёт тот, кто вас позвал.</span>
       </div>
     </div>
-
-    <div class="instrument" aria-hidden="true">
-      <svg viewBox="0 0 600 600">
-        <defs>
-          <radialGradient id="face" cx="50%" cy="42%" r="60%">
-            <stop offset="0" stop-color="#1B2244"/><stop offset="1" stop-color="#0D1124"/>
-          </radialGradient>
-          <linearGradient id="bezel" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#E3C88E"/><stop offset=".5" stop-color="#9C7E45"/><stop offset="1" stop-color="#D8BA7C"/>
-          </linearGradient>
-        </defs>
-        <circle cx="300" cy="300" r="292" fill="none" stroke="url(#bezel)" stroke-width="3"/>
-        <circle cx="300" cy="300" r="282" fill="url(#face)" stroke="rgba(201,168,106,.35)" stroke-width="1"/>
-        <g id="ticks" stroke="#C9A86A"></g>
-        <circle cx="300" cy="300" r="196" fill="none" stroke="rgba(201,168,106,.22)" stroke-width="1"/>
-        <g fill="none" stroke="rgba(201,168,106,.28)" stroke-width="1">
-          <path d="M300 112 L322 278 L300 300 L278 278 Z M300 488 L322 322 L300 300 L278 322 Z"/>
-          <path d="M112 300 L278 278 L300 300 L278 322 Z M488 300 L322 278 L300 300 L322 322 Z"/>
-        </g>
-        <g font-family="Unbounded,sans-serif" font-size="24" font-weight="500" fill="#C9A86A" text-anchor="middle">
-          <text x="300" y="80">С</text><text x="300" y="540">Ю</text><text x="528" y="309">В</text><text x="72" y="309">З</text>
-        </g>
-        <g class="needle">
-          <path d="M300 118 L313 300 L287 300 Z" fill="#D9554A"/>
-          <path d="M300 482 L313 300 L287 300 Z" fill="#E9E6F0" opacity=".85"/>
-          <circle cx="300" cy="300" r="13" fill="url(#bezel)"/>
-          <circle cx="300" cy="300" r="4" fill="#0D1124"/>
-        </g>
-      </svg>
+    <div class="screen" aria-hidden="true">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="title"><b></b><s></s><u></u></div>
+      <div class="shelf"><span></span><span></span><span></span><span></span><span></span></div>
     </div>
   </div>
-</header>
+</div>
 
 <main>
   <section id="start">
-    <div class="wrap split">
-      <header>
+    <div class="wrap">
+      <div class="head">
         <h2>Как начать</h2>
         <p>Минут пять — и можно смотреть. Подробная справка есть в самой программе.</p>
-      </header>
-      <ol class="steps">
-        <li><h3>Установите</h3><p>На компьютер — кнопкой выше. На телевизор — через бесплатную программу Downloader.</p></li>
-        <li><h3>Войдите через Яндекс</h3><p>Наведите телефон на QR-код на экране и нажмите «Разрешить». Пароль вводить не нужно.</p></li>
-        <li><h3>Введите код приглашения</h3><p>Восемь букв и цифр от того, кто вас позвал. Один код — до трёх ваших устройств.</p></li>
-        <li><h3>Смотрите</h3><p>Описания, постеры и рейтинги приходят сами — никаких ключей и регистраций.</p></li>
-      </ol>
+      </div>
+      <div class="cards">
+        <div class="card"><div class="num">1</div><h3>Установите</h3><p>На компьютер — кнопкой выше. На телевизор — через бесплатную программу Downloader.</p></div>
+        <div class="card"><div class="num">2</div><h3>Войдите через Яндекс</h3><p>Наведите телефон на QR-код на экране и нажмите «Разрешить». Пароль не нужен.</p></div>
+        <div class="card"><div class="num">3</div><h3>Введите код</h3><p>Восемь букв и цифр от того, кто вас позвал. Один код — до трёх ваших устройств.</p></div>
+        <div class="card"><div class="num">4</div><h3>Смотрите</h3><p>Описания, постеры и рейтинги приходят сами — никаких ключей и регистраций.</p></div>
+      </div>
     </div>
   </section>
 
   <section id="what">
-    <div class="wrap split">
-      <header>
+    <div class="wrap">
+      <div class="head">
         <h2>Сделано для дивана</h2>
         <p>Всё управляется стрелками и кнопкой OK. Крупные постеры, понятные подписи, ничего лишнего.</p>
-      </header>
-      <div class="features">
-        <div class="feature"><h3>В одно нажатие</h3><p>«Смотреть» сам выбирает лучшую версию: с вашей озвучкой и подходящим качеством.</p></div>
-        <div class="feature"><h3>С того же места</h3><p>Начали на телевизоре — продолжите на компьютере. Списки и история одинаковые везде.</p></div>
-        <div class="feature"><h3>Озвучка на выбор</h3><p>Дубляж, многоголосый, авторский или оригинал с субтитрами. Выбор запоминается для каждого сериала.</p></div>
-        <div class="feature"><h3>«Что за песня?»</h3><p>Нажмите во время фильма — и узнаете, что сейчас играет.</p></div>
+      </div>
+      <div class="cards">
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><h3>В одно нажатие</h3><p>«Смотреть» сам выбирает лучшую версию: с вашей озвучкой и подходящим качеством.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></div><h3>С того же места</h3><p>Начали на телевизоре — продолжите на компьютере. Списки и история одинаковые везде.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div><h3>Озвучка на выбор</h3><p>Дубляж, многоголосый, авторский или оригинал с субтитрами. Выбор запоминается.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.4 3-5 6-5s5.4 1.6 6 5"/><circle cx="17.5" cy="9" r="2.4"/><path d="M16 14.6c2.6-.2 4.4 1.2 5 4.4"/></svg></div><h3>С друзьями</h3><p>Видно, что смотрят друзья, можно советовать друг другу фильмы и сериалы.</p></div>
       </div>
     </div>
   </section>
 
   <section id="tv">
-    <div class="wrap split">
-      <header>
+    <div class="wrap">
+      <div class="head">
         <h2>На телевизор</h2>
         <p>Android TV, Google TV и приставки. Понадобится бесплатная программа Downloader из Google Play.</p>
-      </header>
+      </div>
       <div class="tv">
-        <div>
+        <div class="card">
           <div id="dl-code-box">
             <p class="code-note">Код для Downloader</p>
             <p class="code" id="dl-code"></p>
@@ -236,17 +248,18 @@ footer a:hover{color:var(--ivory)}
             <li>Откройте Yo-ho, войдите через Яндекс и введите код приглашения.</li>
           </ol>
         </div>
-        <div class="side">
+        <div class="card side">
           <img class="qr" src="qr-tv.png" alt="QR-код со ссылкой на страницу для телевизора" width="196" height="196">
-          <p>Или откройте ссылку телефоном. Файл для флешки — <a id="dl-apk" href="#">здесь</a>.</p>
+          <p>Или откройте ссылку телефоном.</p>
+          <a class="btn" id="dl-apk" href="#">Файл для флешки</a>
         </div>
       </div>
     </div>
   </section>
 
   <section id="faq">
-    <div class="wrap split">
-      <header><h2>Вопросы</h2></header>
+    <div class="wrap">
+      <div class="head"><h2>Вопросы</h2></div>
       <div class="faq">
         <details><summary>Где взять код приглашения?</summary><p>Его даёт владелец Yo-ho — тот, кто рассказал вам о программе. Один код рассчитан на одного человека и до трёх его устройств: на втором телевизоре или компьютере достаточно войти тем же Яндексом.</p></details>
         <details><summary>Это бесплатно?</summary><p>Да. Описания фильмов, постеры и рейтинги приходят сами через сервер Yo-ho — никаких ключей и регистраций на сторонних сайтах.</p></details>
@@ -261,7 +274,7 @@ footer a:hover{color:var(--ivory)}
 
 <footer>
   <div class="wrap">
-    <img src="logo.png" alt="Yo-ho">
+    <img src="logo.png" alt="Yo-ho" width="72" height="24">
     <nav>
       <a href="guide.html">Справка</a>
       <a href="#tv">Установка на телевизор</a>
@@ -270,17 +283,9 @@ footer a:hover{color:var(--ivory)}
   </div>
 </footer>
 
-<script src="disk.js?v=6"></script>
+<script src="disk.js?v=7"></script>
 <script>
 (function(){
-  // Шкала компаса: 120 делений, длинные — через 30°.
-  var g=document.getElementById('ticks'),ns='http://www.w3.org/2000/svg';
-  for(var i=0;i<120;i++){var a=i*3*Math.PI/180,big=i%10===0,mid=i%5===0,r=270,l=big?22:mid?14:7;
-    var t=document.createElementNS(ns,'line');
-    t.setAttribute('x1',300+Math.sin(a)*r);t.setAttribute('y1',300-Math.cos(a)*r);
-    t.setAttribute('x2',300+Math.sin(a)*(r-l));t.setAttribute('y2',300-Math.cos(a)*(r-l));
-    t.setAttribute('stroke-width',big?2:1);t.setAttribute('opacity',big?1:mid?.7:.4);g.appendChild(t);}
-
   // Файлы — прямо с Яндекс Диска Yo-ho (disk.js): сайт может стоять где угодно и работает без VPN.
   var tvPage='https://deepworks-soft.github.io/tv/';
   document.getElementById('all-rel').href=YoHo.folder;
