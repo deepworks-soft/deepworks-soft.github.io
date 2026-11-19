@@ -9,13 +9,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--night:#1E1F22;--deck:rgba(255,255,255,.08);--foam:#F5F5F7;--mist:rgba(245,245,247,.66);--line:rgba(255,255,255,.10);--sky:#9DB4FF}
+:root{--night:#111821;--deck:rgba(255,255,255,.08);--foam:#F5F5F7;--mist:rgba(245,245,247,.66);--line:rgba(255,255,255,.10);--sky:#9DB4FF}
 *{box-sizing:border-box}
-body{margin:0;background:var(--night);color:var(--foam);font:400 18px/1.7 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-wrap:normal;word-break:keep-all;hyphens:none}
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(70% 55% at 18% -5%,rgba(114,122,158,.36),transparent 70%),linear-gradient(180deg,#2B2C36 0%,#1E1F22 50%)}
+body{margin:0;background:transparent;isolation:isolate;color:var(--foam);font:400 18px/1.7 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-wrap:normal;word-break:keep-all;hyphens:none}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(10,16,25,.70),rgba(9,13,22,.88)),url('https://artworks.thetvdb.com/banners/series/353116/posters/5f0c09dec9c15.jpg') center/cover no-repeat,#121b26;
+  filter:blur(80px) saturate(.78);transform:scale(1.1)}
 code{white-space:nowrap}
 a{color:var(--sky)}
-.top{position:sticky;top:0;z-index:5;background:rgba(30,31,34,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:5;background:rgba(17,24,33,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .top div{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
 .top img{height:30px}
 .layout{max-width:1120px;margin:0 auto;padding:40px 24px 100px;display:grid;grid-template-columns:260px 1fr;gap:56px}
