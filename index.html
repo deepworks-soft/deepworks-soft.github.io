@@ -6,9 +6,9 @@
 <!-- Яндекс Диск не отдаёт файлы, если браузер сообщает, что пришёл с чужого сайта (403) — не сообщаем. -->
 <meta name="referrer" content="no-referrer">
 <title>Yo-ho — твой компас в мире кино</title>
-<meta name="description" content="Yo-ho — фильмы и сериалы в одно нажатие на Android TV и Windows: подборки, детский профиль, друзья, озвучка на выбор. По приглашениям.">
+<meta name="description" content="Yo-ho для Android TV — фильмы и сериалы с рекомендациями, подборками, профилями, друзьями и удобным плеером. По приглашениям.">
 <meta property="og:title" content="Yo-ho — твой компас в мире кино">
-<meta property="og:description" content="Фильмы и сериалы в один клик — на телевизоре и компьютере.">
+<meta property="og:description" content="Фильмы и сериалы на Android TV — персональные рекомендации, друзья и просмотр в одно нажатие.">
 <meta property="og:image" content="og.png">
 <meta name="theme-color" content="#1E1F22">
 <link rel="icon" href="favicon.png">
@@ -23,21 +23,26 @@ if(/Android/.test(navigator.userAgent)&&!/Mobile/.test(navigator.userAgent)&&loc
 /* В стиле приложения Yo-ho (как Apple TV): тёмный серо-синий фон с мягким светом, крупная типографика,
    стеклянные карточки и кнопки-таблетки. Слова и ссылки никогда не переносятся по частям. */
 :root{
-  --bg:#1E1F22; --bg2:#26272D; --glass:rgba(255,255,255,.07); --glass2:rgba(255,255,255,.11);
+  --bg:#111821; --bg2:#202c38; --glass:rgba(255,255,255,.07); --glass2:rgba(255,255,255,.11);
   --line:rgba(255,255,255,.10); --text:#F5F5F7; --muted:rgba(245,245,247,.62); --faint:rgba(245,245,247,.44);
-  --indigo:#494B5F; --glow:rgba(114,122,158,.30); --accent:#7C9CFF;
+  --indigo:#354758; --glow:rgba(89,122,158,.28); --accent:#99B9EA;
   --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;background:var(--bg)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-body{background:var(--bg);color:var(--text);font:400 18px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+body{background:transparent;isolation:isolate;color:var(--text);font:400 18px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden;
   overflow-wrap:normal;word-break:keep-all;hyphens:none;-webkit-hyphens:none}
-/* Мягкий свет, как фон «Настроек» в программе */
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(70% 55% at 18% -5%,rgba(114,122,158,.38),transparent 70%),
-             radial-gradient(60% 50% at 95% 20%,rgba(91,75,214,.16),transparent 70%),
-             linear-gradient(180deg,#2B2C36 0%,#1E1F22 55%,#1A1B1E 100%)}
+/* Тот же постер «Триггера», что служит основой фона Yo-ho: сильно размытый и тёмный.
+   Текст сайта не проходит через blur; на случай недоступности картинки есть градиент. */
+body::before{content:"";position:fixed;inset:-18%;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(14,19,29,.64),rgba(11,15,24,.81)),
+             url('https://artworks.thetvdb.com/banners/series/353116/posters/5f0c09dec9c15.jpg') center 44%/cover no-repeat,
+             radial-gradient(70% 70% at 25% 15%,#34475f,#111821 75%);
+  filter:blur(82px) saturate(.78);transform:scale(1.1);will-change:transform}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(11,16,24,.16),rgba(8,12,20,.37))}
+
 a{color:inherit}
 :focus-visible{outline:3px solid #fff;outline-offset:4px;border-radius:999px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
@@ -48,7 +53,7 @@ p{max-width:60ch}
 .nowrap{white-space:nowrap}
 
 /* ── Верх ── */
-.top{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.6) blur(20px);-webkit-backdrop-filter:saturate(1.6) blur(20px);background:rgba(30,31,34,.72);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.6) blur(20px);-webkit-backdrop-filter:saturate(1.6) blur(20px);background:rgba(17,24,33,.79);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
 .top img{height:28px;width:auto;display:block}
 .top nav{display:flex;gap:6px}
@@ -71,9 +76,9 @@ p{max-width:60ch}
 .meta{display:grid;gap:6px;margin-top:24px;font-size:15px;color:var(--faint)}
 .meta b{font-weight:600;color:var(--muted)}
 
-/* Экран программы — набросок: полка постеров, одна в фокусе (как на ТВ) */
+/* Экран программы — схематическая иллюстрация: полка постеров, одна в фокусе (как на ТВ) */
 .screen{position:relative;aspect-ratio:16/10;border-radius:28px;overflow:hidden;border:1px solid var(--line);
-  background:radial-gradient(80% 70% at 30% 0%,rgba(124,156,255,.35),transparent 70%),linear-gradient(160deg,#3A3B4A,#202127 70%);
+  background:linear-gradient(130deg,rgba(12,23,37,.53),rgba(4,9,17,.62)),url("https://artworks.thetvdb.com/banners/series/353116/posters/5f0c09dec9c15.jpg") center/cover;
   box-shadow:0 40px 80px rgba(0,0,0,.45)}
 .screen .bar{position:absolute;left:6%;top:9%;display:flex;gap:8px}
 .screen .bar i{display:block;height:12px;border-radius:999px;background:rgba(255,255,255,.18)}
@@ -174,13 +179,9 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
     <div>
       <span class="kicker">Yo-ho · по приглашениям</span>
       <h1>Твой компас в&nbsp;мире кино</h1>
-      <p class="lead">Фильмы и сериалы в одно нажатие — на телевизоре и компьютере. Выбрали, нажали «Смотреть», и через несколько секунд кино уже идёт. С подборками, детским профилем и друзьями.</p>
+      <p class="lead">Фильмы и сериалы на Android TV. Выберите фильм, нажмите «Смотреть» — и Yo-ho поможет выбрать раздачу. Персональные рекомендации, крупные подборки, друзья, профили и удобный плеер.</p>
       <div class="get">
-        <a class="btn main" id="dl-win" href="#" download>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7.1H3V5.5Zm0 13 7.5 1.1v-7H3v5.9Zm8.4 1.2L21 21v-8.4h-9.6v7.1Zm0-15.4v7.2H21V3l-9.6 1.3Z"/></svg>
-          Скачать для Windows
-        </a>
-        <a class="btn" id="dl-tv" href="#tv">
+        <a class="btn main" id="dl-tv" href="#tv">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
           На телевизор
         </a>
@@ -203,11 +204,11 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
     <div class="wrap">
       <div class="head">
         <h2>Сделано для дивана</h2>
-        <p>Всё управляется стрелками и кнопкой OK, а на компьютере — мышью. Крупные постеры, понятные подписи, ничего лишнего.</p>
+        <p>Управление пультом — стрелки и OK. Крупные постеры, персональные полки, понятные действия и ничего лишнего.</p>
       </div>
       <div class="cards">
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><h3>В одно нажатие</h3><p>«Смотреть» сам выбирает лучшую версию: с вашей озвучкой и подходящим качеством. Не подошла — «Другая раздача» одной кнопкой.</p></div>
-        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></div><h3>С того же места</h3><p>Начали на телевизоре — продолжите на компьютере. «Моё», история и оценки одинаковые на всех устройствах.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></div><h3>С того же места</h3><p>Начали фильм — вернитесь к нему из полки «Продолжить просмотр». История, оценки и списки остаются в вашем профиле.</p></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div><h3>Озвучка на выбор</h3><p>Дубляж, многоголосый, авторский или оригинал с субтитрами. Выбор запоминается — и для следующей серии тоже.</p></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="16" r="3"/></svg></div><h3>Подборки и рекомендации</h3><p>Топ-30 фильмов и сериалов, «Фильм дня», тематические подборки и «Рекомендации для вас» — по тому, что вы смотрели и что понравилось.</p></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></div><h3>Поиск голосом</h3><p>Скажите название в пульт или наберите пару букв. Не знаете, что хотите, — листайте жанры и стили.</p></div>
@@ -228,7 +229,7 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2.5 20c.5-3 2.7-4.5 5.5-4.5S13 17 13.5 20M10.5 20c.5-3 2.7-4.5 5.5-4.5s5 1.5 5.5 4.5"/></svg></div><h3>«Кто смотрит?»</h3><p>При запуске — выбор профиля, как в больших онлайн-кинотеатрах. Сменить можно из меню в любой момент.</p></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M5 21c.8-4 3.6-6 7-6s6.2 2 7 6"/><path d="M9 7.5h.01M15 7.5h.01"/></svg></div><h3>Детский профиль</h3><p>Возраст 0+, 6+ или 12+. Своя главная с мультфильмами, семейным кино и своими рекомендациями, в поиске — только подходящее по возрасту.</p></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><h3>Код профилей</h3><p>Четыре цифры на все ваши устройства: без кода ребёнок не выйдет из детского профиля, а взрослый профиль можно запереть.</p></div>
-        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div><h3>Итоги года</h3><p>В конце декабря — ваш год в Yo-ho: сколько фильмов и серий, любимые жанры и самые высокие оценки.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div><h3>Личная коллекция</h3><p>История просмотров, оценки и собственные списки доступны в «Моё», отдельно для каждого профиля.</p></div>
       </div>
     </div>
   </section>
@@ -240,7 +241,7 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
         <p>Минут пять — и можно смотреть. Подробная справка есть в самой программе.</p>
       </div>
       <div class="cards">
-        <div class="card"><div class="num">1</div><h3>Установите</h3><p>На компьютер — кнопкой выше. На телевизор — через бесплатную программу Downloader.</p></div>
+        <div class="card"><div class="num">1</div><h3>Установите</h3><p>На Android TV — через бесплатную программу Downloader или APK, переданный с телефона.</p></div>
         <div class="card"><div class="num">2</div><h3>Войдите через Яндекс</h3><p>Наведите телефон на QR-код на экране и нажмите «Разрешить». Пароль не нужен.</p></div>
         <div class="card"><div class="num">3</div><h3>Введите код</h3><p>Восемь букв и цифр от того, кто вас позвал. Один код — до трёх ваших устройств.</p></div>
         <div class="card"><div class="num">4</div><h3>Смотрите</h3><p>Описания, постеры и рейтинги Кинопоиска приходят сами — никаких ключей и регистраций. Программа обновляется сама.</p></div>
@@ -272,7 +273,7 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
         <div class="card side">
           <img class="qr" src="qr-tv.png" alt="QR-код со ссылкой на страницу для телевизора" width="196" height="196">
           <p>Или откройте ссылку телефоном.</p>
-          <a class="btn" id="dl-apk" href="#">Файл для флешки</a>
+          <a class="btn" id="dl-apk" href="#">APK для Android TV</a>
         </div>
       </div>
     </div>
@@ -288,24 +289,23 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 4 3 11l6 2 2 6 3-4 5 4z"/></svg></div><h3>Новости и обновления</h3><p>Что нового в каждой версии и объявления — в канале, без поиска и рекламы.</p></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div><h3>Ваша статистика</h3><p>Бот покажет, сколько вы посмотрели, оценки и друзей, а ещё справку и как установить Yo-ho на другие устройства.</p></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><h3>Уведомления</h3><p>Рекомендация дня, новые серии, заявки и советы друзей — прямо в Telegram. Лишнее выключается в меню бота.</p></div>
-        <div class="card"><div class="num">→</div><h3>Как подключиться</h3><p>В Yo-ho: Настройки → «Telegram-канал Yo-ho» — наведите телефон на QR-код. Ссылка работает сутки и только для вашего аккаунта.</p></div>
+        <div class="card"><div class="num">→</div><h3>Как подключиться</h3><p>В Yo-ho: Настройки → «Telegram: бот и канал» — наведите телефон на QR-код. Ссылка работает сутки и только для вашего аккаунта.</p></div>
       </div>
     </div>
   </section>
 
   <section id="faq">
     <div class="wrap">
-      <div class="head"><h2>Вопросы</h2></div>
+      <div class="head"><h2>Частые вопросы</h2><p>Справка также доступна в самой программе и по ссылке вверху.</p></div>
       <div class="faq">
-        <details><summary>Где взять код приглашения?</summary><p>Его даёт владелец Yo-ho — тот, кто рассказал вам о программе. Один код рассчитан на одного человека и до трёх его устройств: на втором телевизоре или компьютере достаточно войти тем же Яндексом.</p></details>
+        <details><summary>Где взять код приглашения?</summary><p>Его даёт владелец Yo-ho — тот, кто рассказал вам о программе. Код рассчитан на одного человека и ограниченное количество его устройств. На другом телевизоре можно войти в тот же аккаунт Яндекса.</p></details>
         <details><summary>Это бесплатно?</summary><p>Да. Описания фильмов, постеры и рейтинги приходят сами через сервер Yo-ho — никаких ключей и регистраций на сторонних сайтах.</p></details>
-        <details><summary>Какие нужны устройства?</summary><p>Телевизор или приставка на Android TV / Google TV, либо компьютер с Windows 10 или 11. Для фильмов в HD хватает интернета от 10 Мбит/с, для 4K — от 40.</p></details>
-        <details><summary>Windows пишет «Система Windows защитила ваш компьютер»</summary><p>Так Windows предупреждает о любой программе не из магазина. Нажмите «Подробнее», затем «Выполнить в любом случае».</p></details>
+        <details><summary>Какие нужны устройства?</summary><p>Телевизор или приставка на Android TV / Google TV. Для воспроизведения HD обычно требуется от 10 Мбит/с, для 4K — от 40 Мбит/с.</p></details>
         <details><summary>Телевизор пишет «Приложение не установлено»</summary><p>Чаще всего не хватает места. Освободите около 1 ГБ — удалите ненужные приложения или очистите кеш — и установите снова. Ваши списки не пропадут.</p></details>
         <details><summary>Как сделать детский профиль?</summary><p>На экране «Кто смотрит?» нажмите «Добавить», выберите «Детский» и возраст: 0+, 6+ или 12+. Программа попросит придумать код из четырёх цифр — без него из детского профиля не выйти. Код один на все ваши устройства, сменить его можно в Настройках → «Профили и друзья».</p></details>
         <details><summary>Кто видит, что я смотрю?</summary><p>Только ваши друзья — те, кого вы добавили и кто принял запрос. Остальные видят лишь имя, ник и аватар. Активность можно выключить совсем, а себя — скрыть из общего списка участников (Настройки → «Профили и друзья»).</p></details>
         <details><summary>Не грузятся постеры или фильм идёт рывками</summary><p>Откройте Настройки → «Устранение неполадок» → «Проверка связи»: программа покажет, что открывается из вашей сети. Если фильм тормозит — нажмите «Другая раздача» в карточке или плеере. Если не помогло, напишите владельцу из программы — журнал ошибок отправится сам.</p></details>
-        <details><summary>Как поменять фон или выключить трейлеры?</summary><p>Настройки → «Внешний вид»: фон — красивый, ровный по цвету фильма или чёрный; там же «Трейлеры в баннере». Полку «Рекомендации для вас» можно выключить или сбросить в Настройках → «Главная».</p></details>
+        <details><summary>Как поменять фон или выключить трейлеры?</summary><p>Настройки → «Главная»: включите или скрывайте отдельные полки, меняйте их порядок, управляйте баннером и трейлерами. Оформление — в разделе «Внешний вид».</p></details>
         <details><summary>Как попасть в Telegram-канал Yo-ho?</summary><p>Только из программы: Настройки → «Telegram-канал Yo-ho» → наведите камеру телефона на QR-код. Откроется бот Yo-ho — нажмите «Запустить», и он пришлёт личную ссылку в канал. Ссылка работает сутки и только для вас; мест в канале — 100.</p></details>
         <details><summary>Как обновлять программу?</summary><p>Никак: Yo-ho сама сообщит о новой версии и обновится одной кнопкой.</p></details>
       </div>
@@ -332,7 +332,7 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
   function dl(id,kind){var a=document.getElementById(id);a.href="#";a.removeAttribute("download");
     a.addEventListener('click',function(e){e.preventDefault();var old=ver.textContent;
       YoHo.download(kind,function(t){ver.textContent=t||old;});});}
-  dl('dl-win','setup');dl('dl-apk','apk');
+  dl('dl-apk','apk');
   document.getElementById('tv-addr').textContent=tvPage.replace(/^https?:\/\//,'').replace(/\/$/,'');
   // Короткий код для Downloader (go.aftvnews.com) — ведёт на страницу для ТВ. Пусто — показываем только адрес.
   var DL_CODE='9193785';
@@ -341,8 +341,8 @@ footer nav a:hover{color:var(--text);background:var(--glass2)}
 
   YoHo.current().then(function(j){
     var d=j.date?new Date(j.date).toLocaleDateString('ru-RU',{day:'numeric',month:'long'}):'';
-    ver.textContent=j.version?('Версия '+j.version+(d?' от '+d:'')+'. Windows 10 и 11, Android TV'):'';
-  }).catch(function(){ver.textContent='Windows 10 и 11, Android TV';});
+    ver.textContent=j.version?('Версия '+j.version+(d?' от '+d:'')+'. Android TV'):'';
+  }).catch(function(){ver.textContent='Android TV';});
 })();
 </script>
 </body>
