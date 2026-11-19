@@ -9,9 +9,10 @@
 <link rel="icon" href="../favicon.png">
 <style>
 /* Страница для телевизора: тёмный постер «Триггера» под сильным затемнением, белая кнопка. */
-body{margin:0;min-height:100vh;display:grid;place-items:center;color:#F5F5F7;font:400 26px/1.5 Inter,system-ui,sans-serif;text-align:center;padding:24px;
-  background:linear-gradient(rgba(10,16,25,.84),rgba(9,13,22,.92)),url('https://artworks.thetvdb.com/banners/series/353116/posters/5f0c09dec9c15.jpg') center/cover no-repeat,#101821;
+body{margin:0;min-height:100vh;display:grid;place-items:center;isolation:isolate;color:#F5F5F7;font:400 26px/1.5 Inter,system-ui,sans-serif;text-align:center;padding:24px;
+  background:#101821;
   overflow-wrap:normal;word-break:keep-all;hyphens:none}
+body::before{content:"";position:fixed;inset:-22%;z-index:-1;pointer-events:none; background:linear-gradient(rgba(10,16,25,.72),rgba(9,13,22,.89)),url('https://artworks.thetvdb.com/banners/series/353116/posters/5f0c09dec9c15.jpg') center/cover no-repeat,#101821;filter:blur(88px) saturate(.75);transform:scale(1.12)}
 img{width:min(460px,80vw)}
 a.go{display:inline-block;margin-top:34px;padding:22px 52px;border-radius:999px;background:#ECEBF0;color:#1C1C1E;font-weight:700;text-decoration:none;font-size:30px;white-space:nowrap;transition:transform .15s}
 a.go:focus{outline:4px solid #fff;outline-offset:6px;transform:scale(1.06)}
